@@ -4,59 +4,35 @@ import br.com.fiap.recrutamento.dto.CandidatoContatoDTO;
 import br.com.fiap.recrutamento.dto.CandidatoCreateOrUpdateDTO;
 import br.com.fiap.recrutamento.dto.CandidatoDTO;
 import br.com.fiap.recrutamento.dto.CandidatoSimpleDTO;
+import br.com.fiap.recrutamento.service.CandidatoService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("candidatos")
 public class CandidatoController {
 
-    private List<CandidatoDTO> listaCandidatos = new ArrayList<>();
+    private final CandidatoService candidatoService;
 
-    public CandidatoController() {
-        CandidatoDTO candidatoDTO = new CandidatoDTO();
-        candidatoDTO.setId(1L);
-        candidatoDTO.setNome("Fabio Tadashi");
-        candidatoDTO.setCargo("Arquiteto de Soluções");
-        candidatoDTO.setCurriculo("www.linkedin.com/fabiotadashi");
-        candidatoDTO.setEmail("fabio@fiap.com");
-        candidatoDTO.setTelefone("921382198");
-        candidatoDTO.setDataNascimento(LocalDate.of(1986, 6, 15));
-
-        CandidatoDTO candidatoDTO2 = new CandidatoDTO();
-        candidatoDTO2.setId(2L);
-        candidatoDTO2.setNome("Joao");
-        candidatoDTO2.setCargo("Arquiteto de Software");
-        candidatoDTO2.setCurriculo("www.linkedin.com/joao");
-        candidatoDTO2.setEmail("joao@fiap.com");
-        candidatoDTO2.setTelefone("134131221");
-        candidatoDTO2.setDataNascimento(LocalDate.of(2000, 1, 1));
-
-        listaCandidatos.add(candidatoDTO);
-        listaCandidatos.add(candidatoDTO2);
+    public CandidatoController(CandidatoService candidatoService) {
+        this.candidatoService = candidatoService;
     }
 
     @GetMapping
     public List<CandidatoSimpleDTO> getCandidatos(
             @RequestParam(name = "nome", required = false) String nome
     ) {
-        return listaCandidatos.stream()
-                .filter(dto -> nome == null || dto.getNome().startsWith(nome))
-                .map(CandidatoSimpleDTO::new)
-                .collect(Collectors.toList());
+        return candidatoService.getCandidatos(nome);
     }
 
     @GetMapping("{id}")
     public CandidatoDTO getCandidatoById(
             @PathVariable Long id
     ) {
-        return getCandidatoDTOById(id);
+        return candidatoService.getCandidatoById(id);
     }
 
     @PostMapping
@@ -64,10 +40,7 @@ public class CandidatoController {
     public CandidatoDTO createCandidato(
             @RequestBody CandidatoCreateOrUpdateDTO candidatoCreateOrUpdateDTO
     ) {
-        CandidatoDTO candidatoDTO = new CandidatoDTO(candidatoCreateOrUpdateDTO);
-        candidatoDTO.setId(listaCandidatos.size() + 1L);
-        listaCandidatos.add(candidatoDTO);
-        return candidatoDTO;
+        return candidatoService.create(candidatoCreateOrUpdateDTO);
     }
 
     @PutMapping("{id}")
@@ -75,14 +48,7 @@ public class CandidatoController {
             @RequestBody CandidatoCreateOrUpdateDTO candidatoCreateOrUpdateDTO,
             @PathVariable Long id
     ) {
-        CandidatoDTO candidatoDTO = getCandidatoDTOById(id);
-        candidatoDTO.setNome(candidatoCreateOrUpdateDTO.getNome());
-        candidatoDTO.setTelefone(candidatoCreateOrUpdateDTO.getTelefone());
-        candidatoDTO.setDataNascimento(candidatoCreateOrUpdateDTO.getDataNascimento());
-        candidatoDTO.setEmail(candidatoCreateOrUpdateDTO.getEmail());
-        candidatoDTO.setCargo(candidatoCreateOrUpdateDTO.getCargo());
-        candidatoDTO.setCurriculo(candidatoCreateOrUpdateDTO.getCurriculo());
-        return candidatoDTO;
+        return candidatoService.update(id, candidatoCreateOrUpdateDTO);
     }
 
     @PatchMapping("{id}")
@@ -90,10 +56,7 @@ public class CandidatoController {
             @RequestBody CandidatoContatoDTO candidatoContatoDTO,
             @PathVariable Long id
     ) {
-        CandidatoDTO candidatoDTO = getCandidatoDTOById(id);
-        candidatoDTO.setEmail(candidatoContatoDTO.getEmail());
-        candidatoDTO.setTelefone(candidatoContatoDTO.getTelefone());
-        return candidatoDTO;
+        return candidatoService.updateContato(id, candidatoContatoDTO);
     }
 
     @DeleteMapping("{id}")
@@ -101,15 +64,7 @@ public class CandidatoController {
     public void deleteCandidato(
             @PathVariable Long id
     ) {
-        CandidatoDTO candidatoDTO = getCandidatoDTOById(id);
-        listaCandidatos.remove(candidatoDTO);
-    }
-
-    private CandidatoDTO getCandidatoDTOById(Long id) {
-        return listaCandidatos.stream()
-                .filter(dto -> dto.getId().equals(id))
-                .findFirst()
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Candidato nao encontrado"));
+        candidatoService.delete(id);
     }
 
 }
