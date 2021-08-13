@@ -10,11 +10,15 @@ sourceCompatibility = '11'
 
 repositories {
 	mavenCentral()
+	jcenter()
 }
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.springfox:springfox-boot-starter:3.0.0'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'com.h2database:h2:1.4.197'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 

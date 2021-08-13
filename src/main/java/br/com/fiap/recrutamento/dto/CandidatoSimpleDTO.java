@@ -1,5 +1,7 @@
 package br.com.fiap.recrutamento.dto;
 
+import br.com.fiap.recrutamento.entity.Candidato;
+
 public class CandidatoSimpleDTO {
 
     private Long id;
@@ -8,10 +10,10 @@ public class CandidatoSimpleDTO {
 
     public CandidatoSimpleDTO(){}
 
-    public CandidatoSimpleDTO(CandidatoDTO candidatoDTO) {
-        this.id = candidatoDTO.getId();
-        this.nome = candidatoDTO.getNome();
-        this.cargo = candidatoDTO.getCargo();
+    public CandidatoSimpleDTO(Candidato candidato) {
+        this.id = candidato.getId();
+        this.nome = candidato.getNome();
+        this.cargo = candidato.getCargo();
     }
 
     public Long getId() {

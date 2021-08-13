@@ -1,29 +1,53 @@
-package br.com.fiap.recrutamento.dto;
+package br.com.fiap.recrutamento.entity;
 
-import br.com.fiap.recrutamento.entity.Candidato;
+import br.com.fiap.recrutamento.dto.CandidatoCreateOrUpdateDTO;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
-public class CandidatoDTO {
+@Entity
+@Table(name = "TB_CANDIDATO")
+public class Candidato {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column
     private String nome;
+
+    @Column
     private LocalDate dataNascimento;
+
+    @Column
     private String curriculo;
+
+    @Column
     private String email;
+
+    @Column
     private String telefone;
+
+    @Column
     private String cargo;
 
-    public CandidatoDTO(){}
+    public Candidato(){}
 
-    public CandidatoDTO(Candidato candidato) {
-        this.id = candidato.getId();
-        this.nome = candidato.getNome();
-        this.dataNascimento = candidato.getDataNascimento();
-        this.curriculo = candidato.getCurriculo();
-        this.email = candidato.getEmail();
-        this.telefone = candidato.getTelefone();
-        this.cargo = candidato.getCargo();
+    public Candidato(CandidatoCreateOrUpdateDTO candidatoCreateOrUpdateDTO) {
+        this.nome = candidatoCreateOrUpdateDTO.getNome();
+        this.dataNascimento = candidatoCreateOrUpdateDTO.getDataNascimento();
+        this.curriculo = candidatoCreateOrUpdateDTO.getCurriculo();
+        this.email = candidatoCreateOrUpdateDTO.getEmail();
+        this.telefone = candidatoCreateOrUpdateDTO.getTelefone();
+        this.cargo = candidatoCreateOrUpdateDTO.getCargo();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getNome() {
@@ -72,13 +96,5 @@ public class CandidatoDTO {
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }
