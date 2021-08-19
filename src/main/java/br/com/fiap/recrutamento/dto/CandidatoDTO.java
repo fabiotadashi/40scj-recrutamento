@@ -3,6 +3,7 @@ package br.com.fiap.recrutamento.dto;
 import br.com.fiap.recrutamento.entity.Candidato;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 public class CandidatoDTO {
 
@@ -13,6 +14,8 @@ public class CandidatoDTO {
     private String email;
     private String telefone;
     private String cargo;
+    private Date dataCriacao;
+    private Date dataAtualizacao;
 
     public CandidatoDTO(){}
 
@@ -24,6 +27,8 @@ public class CandidatoDTO {
         this.email = candidato.getEmail();
         this.telefone = candidato.getTelefone();
         this.cargo = candidato.getCargo();
+        this.dataCriacao = candidato.getDataCriacao();
+        this.dataAtualizacao = candidato.getDataUltimaAtualizacao();
     }
 
     public String getNome() {
@@ -80,5 +85,21 @@ public class CandidatoDTO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Date getDataAtualizacao() {
+        return dataAtualizacao;
+    }
+
+    public void setDataAtualizacao(Date dataAtualizacao) {
+        this.dataAtualizacao = dataAtualizacao;
     }
 }

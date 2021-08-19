@@ -1,0 +1,14 @@
+create table TB_CANDIDATO
+(
+    ID BIGINT auto_increment
+        primary key,
+    CARGO VARCHAR(255),
+    CURRICULO VARCHAR(255),
+    DATA_CRIACAO TIMESTAMP not null,
+    DATA_NASCIMENTO DATE,
+    DATA_ATUALIZACAO TIMESTAMP not null,
+    EMAIL VARCHAR(255),
+    NOME VARCHAR(255),
+    TELEFONE VARCHAR(255)
+);
+

@@ -1,11 +1,16 @@
 package br.com.fiap.recrutamento.entity;
 
 import br.com.fiap.recrutamento.dto.CandidatoCreateOrUpdateDTO;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "TB_CANDIDATO")
 public class Candidato {
 
@@ -30,6 +35,14 @@ public class Candidato {
 
     @Column
     private String cargo;
+
+    @Column(name = "data_criacao", nullable = false, updatable = false)
+    @CreatedDate
+    private Date dataCriacao;
+
+    @Column(name = "data_atualizacao", nullable = false)
+    @LastModifiedDate
+    private Date dataUltimaAtualizacao;
 
     public Candidato(){}
 
@@ -96,5 +109,21 @@ public class Candidato {
 
     public void setCargo(String cargo) {
         this.cargo = cargo;
+    }
+
+    public Date getDataCriacao() {
+        return dataCriacao;
+    }
+
+    public void setDataCriacao(Date dataCriacao) {
+        this.dataCriacao = dataCriacao;
+    }
+
+    public Date getDataUltimaAtualizacao() {
+        return dataUltimaAtualizacao;
+    }
+
+    public void setDataUltimaAtualizacao(Date dataUltimaAtualizacao) {
+        this.dataUltimaAtualizacao = dataUltimaAtualizacao;
     }
 }
