@@ -27,8 +27,7 @@ class CandidatoIntegrationTest {
                 MockMvcRequestBuilders.get("/candidatos")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(2)))
-                .andExpect(MockMvcResultMatchers.jsonPath("$[0].nome", Matchers.is("Fabio Tadashi")));
+                .andExpect(MockMvcResultMatchers.jsonPath("$", Matchers.hasSize(0)));
     }
 
 }
