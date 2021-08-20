@@ -7,7 +7,9 @@ import br.com.fiap.recrutamento.dto.CandidatoSimpleDTO;
 import br.com.fiap.recrutamento.service.CandidatoService;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,7 @@ public class CandidatoController {
 
     @GetMapping
     @ApiOperation(value = "Buscar candidatos filtrando por nomes")
+    @Secured("ADMIN")
     public List<CandidatoSimpleDTO> getCandidatos(
             @RequestParam(name = "nome", required = false) String nome
     ) {
