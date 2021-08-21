@@ -36,7 +36,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        String authHeaderToken = request.getHeader("Authentication");
+        String authHeaderToken = request.getHeader("Authorization");
         String nome = null;
         String jwtToken;
 
@@ -54,10 +54,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             logger.info("Token não encontrado ou fora do padrão Bearer");
         }
 
-        if(nome != null && SecurityContextHolder.getContext() == null){
+        if(nome != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails =  jwtUserDetailService.loadUserByUsername(nome);
 
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getAuthorities());
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
             authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
 

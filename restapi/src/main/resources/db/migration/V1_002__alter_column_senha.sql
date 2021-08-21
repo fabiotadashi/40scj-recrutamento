@@ -1,0 +1,1 @@
+alter table TB_USUARIO alter column senha varchar(100);

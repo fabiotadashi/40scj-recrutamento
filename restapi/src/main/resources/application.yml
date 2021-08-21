@@ -4,7 +4,7 @@ server:
 fiap:
   debug: true
   secret: f14pS3cr37
-  expireInSeconds: 120
+  expireInSeconds: 300
 
 spring:
   datasource:

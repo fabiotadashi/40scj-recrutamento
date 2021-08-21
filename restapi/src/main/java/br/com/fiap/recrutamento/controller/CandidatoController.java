@@ -26,7 +26,6 @@ public class CandidatoController {
 
     @GetMapping
     @ApiOperation(value = "Buscar candidatos filtrando por nomes")
-    @Secured("ADMIN")
     public List<CandidatoSimpleDTO> getCandidatos(
             @RequestParam(name = "nome", required = false) String nome
     ) {

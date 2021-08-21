@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 @Component
 public class JwtTokenUtil {
@@ -23,11 +24,12 @@ public class JwtTokenUtil {
     public String generateToken(String nome){
         Date dataCriacao = getDateFrom(LocalDateTime.now());
         Date dataExpiracao = getDateFrom(LocalDateTime.now().plusSeconds(expireInSeconds));
+        Map<String, Object> claims = new HashMap<>();
         return Jwts.builder()
+                .setClaims(claims)
                 .setIssuedAt(dataCriacao)
                 .setExpiration(dataExpiracao)
                 .setSubject(nome)
-                .setClaims(new HashMap<>())
                 .signWith(SignatureAlgorithm.HS256, secret)
                 .compact();
     }
